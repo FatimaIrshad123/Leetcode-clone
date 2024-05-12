@@ -1,4 +1,5 @@
 import { IoCloseSharp } from "react-icons/io5";
+import Login from "./Login";
 
 export default function AuthModel(){
     return (
@@ -14,6 +15,7 @@ export default function AuthModel(){
 								<IoCloseSharp className="h-5 w-5"/>
 							</button>
 						</div>
+                        <Login />
 					</div>
 				</div>
 			</div>
