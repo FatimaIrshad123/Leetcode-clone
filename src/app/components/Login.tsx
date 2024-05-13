@@ -1,4 +1,11 @@
+import { useSetRecoilState } from "recoil"
+import { authModelState } from "../atoms/authModelAtom"
+
 export default function Login(){
+    const setAuthModelState = useSetRecoilState(authModelState)
+    const handleCLick = (type:'login' | 'register' | 'forgotPassword') => {
+        setAuthModelState((prev) => ({...prev,type}))
+    }
     return (
         <form className="space-y-6 px-6 pb-4">
             <h3 className="text-xl font-medium text-white">Sign in to LeetClone</h3>
@@ -16,12 +23,12 @@ export default function Login(){
                 <button type="submit" className="text-white w-full focus:rig-blue-300 text-sm px-5 py-2.5 text-center bg-brand-orange hover:bg-brand-orange-s font-medium rounded-lg mt-4">
                     Login
                 </button>
-                <button className="flex w-full justify-end mt-4">
+                <button className="flex w-full justify-end mt-4" onClick={() => handleCLick('forgotPassword')}>
                     <a href='#' className="text-sm text-brand-orange block hover:underline w-full text-right">
                         Forgot Password
                     </a>
                 </button>
-                <div className="text-sm font-medium text-gray-500">
+                <div className="text-sm font-medium text-gray-500" onClick={() => handleCLick('register')}>
                     Not Registered?  
                     <a href="#" className="text-blue-700 hover:underline">
                         Create account

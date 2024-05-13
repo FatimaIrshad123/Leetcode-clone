@@ -2,8 +2,12 @@ import { IoCloseSharp } from "react-icons/io5";
 import Login from "./Login";
 import Signup from "./Signup";
 import ResetPassword from "./ResetPassword";
+import { useRecoilValue } from "recoil";
+import { authModelState } from "../atoms/authModelAtom";
 
 export default function AuthModel(){
+	const authModel = useRecoilValue(authModelState)
+
     return (
         <>
             <div className='absolute top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-60'></div>
@@ -17,7 +21,7 @@ export default function AuthModel(){
 								<IoCloseSharp className="h-5 w-5"/>
 							</button>
 						</div>
-                        <ResetPassword />
+                        {authModel.type === 'login' ? <Login /> : authModel.type === 'register' ? <Signup/> : <ResetPassword />}
 					</div>
 				</div>
 			</div>
