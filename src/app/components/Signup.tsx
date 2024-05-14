@@ -23,6 +23,7 @@ export default function Signup(){
 
     const handleRegister = async (e:React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        if(!input.email || !input.password || !input.displayName) return alert('Please fill all fields')
         try{
             const newUser = await createUserWithEmailAndPassword(input.email, input.password)
             if(!newUser)return;
@@ -60,7 +61,7 @@ export default function Signup(){
             onChange={handleChangeInput}/>
             <button type="submit" className="text-white w-full focus:rig-blue-300 text-sm px-5 py-2.5 text-center bg-brand-orange hover:bg-brand-orange-s font-medium rounded-lg mt-4"
            >
-                Register
+                {loading ? "Registering..." : "Register"}
             </button>
             <div className="text-sm font-medium text-gray-500 mt-5">
                 Already have an account?  
