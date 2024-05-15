@@ -1,11 +1,13 @@
 'use client'
-import { RecoilRoot } from "recoil";
-import Navbar from "./components/Navbar";
+
+import Topbar from "./components/Topbar";
 
 export default function Home() {
   return (
-    <RecoilRoot>
-      <Navbar />
-    </RecoilRoot>  
+    <>
+      <main className="bg-dark-layer-2 min-h-screen">
+        <Topbar />
+      </main>
+    </> 
   );
 }
