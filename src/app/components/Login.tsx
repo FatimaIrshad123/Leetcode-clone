@@ -1,25 +1,56 @@
 import { useSetRecoilState } from "recoil"
 import { authModelState } from "../atoms/authModelAtom"
+import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
+import { auth } from "../firebase/firebase";
+import { useState } from "react";
+import {useRouter} from 'next/navigation'
 
 export default function Login(){
     const setAuthModelState = useSetRecoilState(authModelState)
     const handleCLick = (type:'login' | 'register' | 'forgotPassword') => {
         setAuthModelState((prev) => ({...prev,type}))
     }
+    const router = useRouter()
+    const handleInputChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+        setInputs((prev) => ({...prev, [e.target.name]: e.target.value}))
+    }
+    const [inputs,setInputs] = useState({email:'',password:''})
+    const [
+        signInWithEmailAndPassword,
+        user,
+        loading,
+        error,
+      ] = useSignInWithEmailAndPassword(auth);
+
+      const handleLogin = async(e:React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        if(!inputs.email || !inputs.password)return alert("Please fill all fields")
+        try {
+            const newUser = await signInWithEmailAndPassword(inputs.email,inputs.password);
+            if (!newUser) return;
+            router.push('/')
+    }catch(error:any){
+        alert(error.message);
+    }
+      }
+      console.log('users',user)
     return (
-        <form className="space-y-6 px-6 pb-4">
+        <form className="space-y-6 px-6 pb-4" onSubmit={handleLogin}>
             <h3 className="text-xl font-medium text-white">Sign in to LeetClone</h3>
             <div>
                 <label className="text-sm font-medium block mb-2 text-gray-300" htmlFor="email">
                     Your Email
                 </label>
-                <input type="email" name="email" id="email" className="border-2 outline-none sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-600 border-gray-500 placeholder-gray-400 text-white" placeholder="name@company.com"/>
+                <input type="email"
+                onChange={handleInputChange} 
+                name="email" id="email" className="border-2 outline-none sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-600 border-gray-500 placeholder-gray-400 text-white" placeholder="name@company.com"/>
             </div>
             <div>
                 <label className="text-sm font-medium block mb-2 text-gray-300" htmlFor="password">
                     Your Password
                 </label>
-                <input type="password" name="password" id="password" className="border-2 outline-none sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-600 border-gray-500 placeholder-gray-400 text-white" placeholder="********"/>
+                <input type="password"
+                onChange={handleInputChange}  name="password" id="password" className="border-2 outline-none sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-600 border-gray-500 placeholder-gray-400 text-white" placeholder="********"/>
                 <button type="submit" className="text-white w-full focus:rig-blue-300 text-sm px-5 py-2.5 text-center bg-brand-orange hover:bg-brand-orange-s font-medium rounded-lg mt-4">
                     Login
                 </button>
