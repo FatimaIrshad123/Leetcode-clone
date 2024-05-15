@@ -2,7 +2,7 @@ import { useSetRecoilState } from "recoil"
 import { authModelState } from "../atoms/authModelAtom"
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { auth } from "../firebase/firebase";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {useRouter} from 'next/navigation'
 
 export default function Login(){
@@ -33,7 +33,9 @@ export default function Login(){
         alert(error.message);
     }
       }
-      console.log('users',user)
+      useEffect(() => {
+        alert(error?.message)
+      },[error])
     return (
         <form className="space-y-6 px-6 pb-4" onSubmit={handleLogin}>
             <h3 className="text-xl font-medium text-white">Sign in to LeetClone</h3>
@@ -52,7 +54,7 @@ export default function Login(){
                 <input type="password"
                 onChange={handleInputChange}  name="password" id="password" className="border-2 outline-none sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-600 border-gray-500 placeholder-gray-400 text-white" placeholder="********"/>
                 <button type="submit" className="text-white w-full focus:rig-blue-300 text-sm px-5 py-2.5 text-center bg-brand-orange hover:bg-brand-orange-s font-medium rounded-lg mt-4">
-                    Login
+                {loading ? "Loading..." : "Login"}
                 </button>
                 <button className="flex w-full justify-end mt-4" onClick={() => handleCLick('forgotPassword')}>
                     <a href='#' className="text-sm text-brand-orange block hover:underline w-full text-right">
