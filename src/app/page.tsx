@@ -1,5 +1,6 @@
 'use client'
 
+import ProblemTable from "./components/ProblemsTable";
 import Topbar from "./components/Topbar";
 
 export default function Home() {
@@ -29,6 +30,7 @@ export default function Home() {
                 </th>
               </tr>
             </thead>
+            <ProblemTable />
           </table>
         </div>
       </main>
