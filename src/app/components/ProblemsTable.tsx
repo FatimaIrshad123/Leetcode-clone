@@ -3,7 +3,6 @@ import { problems } from "../mockProblems/problems";
 import Link from "next/link";
 import { AiFillYoutube } from "react-icons/ai";
 import YouTube from "react-youtube";
-import { TiLockClosed } from "react-icons/ti";
 import { IoCloseSharp } from "react-icons/io5";
 import { useState } from "react";
 
@@ -12,6 +11,9 @@ export default function ProblemTable(){
         isOpen: false,
         videoId: ""
     })
+    const closeModel = () => {
+        setYoutubePlayer({isOpen: false, videoId: ""})
+    }
 
     return (
         <>        
@@ -58,8 +60,8 @@ export default function ProblemTable(){
                 <div className="w-full z-50 h-full px-6 relative max-w-4xl">
                     <div className="w-full h-full flex items-center justify-center relative">
                         <div className="w-full relative">
-                            <IoCloseSharp fontSize={'35'} className='cursor-pointer absolute -top-16 right-0'/>
-                            <YouTube videoId={"4qYTqOiRMoM"} loading="lazy" iframeClassName="w-full min-h-[500px]"/>
+                            <IoCloseSharp fontSize={'35'} onClick={closeModel}className='cursor-pointer absolute -top-16 right-0'/>
+                            <YouTube videoId={youtubePlaye.videoId} loading="lazy" iframeClassName="w-full min-h-[500px]"/>
                         </div>
                     </div>
                 </div>
