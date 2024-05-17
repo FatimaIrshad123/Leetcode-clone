@@ -4,7 +4,7 @@ import Link from "next/link";
 import { AiFillYoutube } from "react-icons/ai";
 import YouTube from "react-youtube";
 import { IoCloseSharp } from "react-icons/io5";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function ProblemTable(){
     const [youtubePlaye, setYoutubePlayer] = useState({
@@ -15,6 +15,13 @@ export default function ProblemTable(){
         setYoutubePlayer({isOpen: false, videoId: ""})
     }
 
+    useEffect(() => {
+        const handleEsc = (e: KeyboardEvent) => {
+            if (e.key === 'Escape')closeModel();
+        }
+        window.addEventListener("keydown",handleEsc)
+        return () => window.removeEventListener("keydown",handleEsc)
+    })
     return (
         <>        
             <tbody className="text-white">
@@ -53,8 +60,6 @@ export default function ProblemTable(){
                 })}
             </tbody>
             {youtubePlaye.isOpen && (
-
-            
             <tfoot className="fixed top-0 left-0 h-screen w-screen flex items-center justify-center">
                 <div className="bg-black z-10 opacity-20 top-0 left-0 w-screen h-screen absolute"></div>
                 <div className="w-full z-50 h-full px-6 relative max-w-4xl">
@@ -65,7 +70,6 @@ export default function ProblemTable(){
                         </div>
                     </div>
                 </div>
-
             </tfoot>
         )}
             </>
