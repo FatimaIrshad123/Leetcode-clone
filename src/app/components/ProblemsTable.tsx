@@ -5,8 +5,14 @@ import { AiFillYoutube } from "react-icons/ai";
 import YouTube from "react-youtube";
 import { TiLockClosed } from "react-icons/ti";
 import { IoCloseSharp } from "react-icons/io5";
+import { useState } from "react";
 
 export default function ProblemTable(){
+    const [youtubePlaye, setYoutubePlayer] = useState({
+        isOpen: false,
+        videoId: ""
+    })
+
     return (
         <>        
             <tbody className="text-white">
@@ -32,6 +38,7 @@ export default function ProblemTable(){
                             <td className={`px-6 py-4`}>
                                 {doc.videoId ? (
                                     <AiFillYoutube 
+                                    onClick={() => setYoutubePlayer({isOpen:true, videoId: doc.id as string})}
                                     fontSize={'18'}
                                     className="cursor-pointer hover:text-red-500"/>
                                 ) : (
@@ -43,6 +50,9 @@ export default function ProblemTable(){
                     )
                 })}
             </tbody>
+            {youtubePlaye.isOpen && (
+
+            
             <tfoot className="fixed top-0 left-0 h-screen w-screen flex items-center justify-center">
                 <div className="bg-black z-10 opacity-20 top-0 left-0 w-screen h-screen absolute"></div>
                 <div className="w-full z-50 h-full px-6 relative max-w-4xl">
@@ -55,6 +65,7 @@ export default function ProblemTable(){
                 </div>
 
             </tfoot>
+        )}
             </>
     )
 }
