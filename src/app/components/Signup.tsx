@@ -10,9 +10,7 @@ export default function Signup(){
     const handleCLick = (type:'login' | 'register' | 'forgotPassword') => {
         setAuthModelState((prev) => ({...prev,type}))
     }
-
     const router = useRouter();
-
     const [input,setInputs] = useState({email:'',displayName:'',password:''})
 
     const [createUserWithEmailAndPassword,user,loading,error,] = useCreateUserWithEmailAndPassword(auth);
@@ -23,7 +21,7 @@ export default function Signup(){
 
     const handleRegister = async (e:React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if(!input.email || !input.password || !input.displayName) return alert('Please fill all fields')
+        if(!input.email || !input.password) return alert('Please fill all fields')
         try{
             const newUser = await createUserWithEmailAndPassword(input.email, input.password)
             if(!newUser)return;
@@ -34,7 +32,10 @@ export default function Signup(){
     }
 
     useEffect(() => {
-        if(error) alert(error.message)
+        if(error) {
+            alert(error.message)
+            console.log(error)
+        }
     },[error])
     return (
         <form className="space-y-6 px-6 pb-4" onSubmit={handleRegister}>
