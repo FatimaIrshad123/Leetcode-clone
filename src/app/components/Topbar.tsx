@@ -1,11 +1,16 @@
+"use client"
 import Link from "next/link"
 import { useAuthState } from "react-firebase-hooks/auth"
 import { auth } from "../firebase/firebase"
 import LogoutButton from "./LogoutButton";
+import { useSetRecoilState } from "recoil";
+import { authModelState } from "../atoms/authModelAtom";
 
 export default function Topbar(){
 	const [user] = useAuthState(auth);
-	console.log(user)
+//	console.log(user)
+	const setAuthModalState = useSetRecoilState(authModelState)
+
     return (
         <nav className='relative flex h-[50px] w-full shrink-0 items-center px-5 bg-dark-layer-1 text-dark-gray-7'>
 			<div className={`flex w-full items-center justify-between`}>
@@ -24,7 +29,9 @@ export default function Topbar(){
 						</a>
 					</div>
 					{!user && (
-						<Link href='/home'>
+						<Link href='/home' onClick={() => {
+							setAuthModalState((prev) => ({...prev, isOpen: true, type: "login"}))
+						}}>
 						<button className='bg-dark-fill-3 py-1 px-2 cursor-pointer rounded'>Sign In</button>
 					</Link>
 					)}

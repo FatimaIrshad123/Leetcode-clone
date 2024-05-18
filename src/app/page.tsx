@@ -1,11 +1,12 @@
 'use client'
 
+import { RecoilRoot } from "recoil";
 import ProblemTable from "./components/ProblemsTable";
 import Topbar from "./components/Topbar";
 
 export default function Home() {
   return (
-    <>
+    <RecoilRoot>
       <main className="bg-dark-layer-2 min-h-screen">
         <Topbar />
         <h1 className="text-2xl text-center text-gray-700 dark:text-gray-400 font-medium uppercase mt-10 mb-5">" QUALITY OVER QUANTITY "👇</h1>
@@ -34,6 +35,6 @@ export default function Home() {
           </table>
         </div>
       </main>
-    </> 
+    </RecoilRoot> 
   );
 }

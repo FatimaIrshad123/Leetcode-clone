@@ -7,21 +7,18 @@ import {useRouter} from 'next/navigation'
 
 export default function Login(){
     const setAuthModelState = useSetRecoilState(authModelState)
+    const [inputs,setInputs] = useState({email:'',password:''})
+    const [signInWithEmailAndPassword,user,loading,error] = useSignInWithEmailAndPassword(auth);
+    const router = useRouter()
+
     const handleCLick = (type:'login' | 'register' | 'forgotPassword') => {
         setAuthModelState((prev) => ({...prev,type}))
     }
-    const router = useRouter()
+   
     const handleInputChange = (e:React.ChangeEvent<HTMLInputElement>) => {
         setInputs((prev) => ({...prev, [e.target.name]: e.target.value}))
     }
-    const [inputs,setInputs] = useState({email:'',password:''})
-    const [
-        signInWithEmailAndPassword,
-        user,
-        loading,
-        error,
-      ] = useSignInWithEmailAndPassword(auth);
-
+        
       const handleLogin = async(e:React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if(!inputs.email || !inputs.password)return alert("Please fill all fields")
@@ -29,13 +26,16 @@ export default function Login(){
             const newUser = await signInWithEmailAndPassword(inputs.email,inputs.password);
             if (!newUser) return;
             router.push('/')
-    }catch(error:any){
-        alert(error.message);
-    }
-      }
-      useEffect(() => {
-        alert(error?.message)
-      },[error])
+        }catch(error:any){
+            console.log(error)
+            alert(error.message);
+        }}
+
+        /*useEffect(() => {
+            console.log(error)
+            alert(error?.message)
+          },[error])*/
+          
     return (
         <form className="space-y-6 px-6 pb-4" onSubmit={handleLogin}>
             <h3 className="text-xl font-medium text-white">Sign in to LeetClone</h3>
