@@ -4,6 +4,7 @@ import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { auth } from "../firebase/firebase";
 import { useEffect, useState } from "react";
 import {useRouter} from 'next/navigation'
+import { toast } from "react-toastify";
 
 export default function Login(){
     const setAuthModelState = useSetRecoilState(authModelState)
@@ -31,10 +32,10 @@ export default function Login(){
             alert(error.message);
         }}
 
-        /*useEffect(() => {
-            console.log(error)
-            alert(error?.message)
-          },[error])*/
+        useEffect(() => {
+            //console.log(error)
+            if(error) toast.error(error.message, {position: "top-center",autoClose: 3000, theme: 'dark'})
+          },[error])
           
     return (
         <form className="space-y-6 px-6 pb-4" onSubmit={handleLogin}>
