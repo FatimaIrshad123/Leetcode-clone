@@ -29,7 +29,7 @@ export default function Login(){
             router.push('/')
         }catch(error:any){
             console.log(error)
-            alert(error.message);
+            toast.error(error.message, {position: "top-center",autoClose: 3000, theme: 'dark'})
         }}
 
         useEffect(() => {
