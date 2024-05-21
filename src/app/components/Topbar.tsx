@@ -8,6 +8,7 @@ import { authModelState } from "../atoms/authModelAtom";
 import Image from 'next/image';
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { BsList } from "react-icons/bs";
+import Timer from "./Timer";
 
 type TopbarProps = {
 	problemPage? : boolean;
@@ -59,6 +60,7 @@ export default function Topbar({ problemPage }: TopbarProps){
 						<button className='bg-dark-fill-3 py-1 px-2 cursor-pointer rounded'>Sign In</button>
 					</Link>
 					)}
+					{problemPage && <Timer />}
 					{user && (
 						<div className="cursor-pointer group relative">
 							<img src="/avatar.png" alt="user profile img" className="h-8 w-8 rounded-lg"/>
