@@ -1,3 +1,5 @@
+'use client'
+
 import Topbar from "@/app/components/Topbar"
 import WorkSpace from "@/app/components/WorkSpace"
 

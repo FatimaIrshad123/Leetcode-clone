@@ -2,8 +2,8 @@
 
 export default function ProblemDescription(){
     return (
-        <div>
-            
+        <div className="h-screen">
+            Problem
         </div>
     )
 }
