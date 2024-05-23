@@ -1,13 +1,14 @@
 import Split from 'react-split'
 import ProblemDescription from './ProblemDescription'
+import PlayGround from './PlayGround'
 
 
 export default function WorkSpace(){
     return (
     <div>
-        <Split className='split'>
+        <Split className='split' minSize={0}>
              <ProblemDescription />
-             <div>The code editor will be here</div>
+             <PlayGround />
         </Split>
     </div>
     )

@@ -102,3 +102,9 @@ code {
 	color: white;
 	font-size: 1rem;
 }
+
+@layer components {
+	.prefernceBtn {
+		@apply relative rounded px-3 py-1.5 font-medium items-center transition-all focus:outline-none p-1 ml-auto inline-flex mr-2 hover:bg-dark-fill-3 group;
+	}
+}
