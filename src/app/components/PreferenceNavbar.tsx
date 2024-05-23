@@ -20,7 +20,7 @@ export default function PreferenceNavbar(){
                         Settings
                     </div>
                 </button>
-                <button className="prefernceBtn">
+                <button className="relative rounded px-3 py-1.5 font-medium items-center transition-all focus:outline-none p-1 ml-auto inline-flex mr-2 hover:bg-dark-fill-3 group">
                     <div className="h-4 w-4 text-dark-gray-6 font-bold text-lg">
                         <AiOutlineFullscreen />
                     </div>
