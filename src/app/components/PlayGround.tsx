@@ -3,6 +3,7 @@ import Split from "react-split";
 import CodeMirror from "@uiw/react-codemirror"
 import { vscodeDark } from "@uiw/codemirror-theme-vscode";
 import { javascript } from "@codemirror/lang-javascript";
+import EditorFooter from "./EditorFooter";
 export default function PlayGround(){
     return (
         <div className="flex flex-col bg-dark-layer-1 relative">
@@ -64,6 +65,7 @@ export default function PlayGround(){
                     </div>
                 </div>
             </Split>
+            <EditorFooter />
         </div>
     )
 }
