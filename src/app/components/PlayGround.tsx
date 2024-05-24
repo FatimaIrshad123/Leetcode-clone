@@ -6,7 +6,7 @@ import { javascript } from "@codemirror/lang-javascript";
 import EditorFooter from "./EditorFooter";
 export default function PlayGround(){
     return (
-        <div className="flex flex-col bg-dark-layer-1 relative">
+        <div className="flex flex-col bg-dark-layer-1 relative overflow-x-hidden">
             <PreferenceNavbar />
             <Split className="h-[calc(100vh-34px)]" direction="vertical" sizes={[60,40]} minSize={60}>
                 <div className="w-full overflow-auto">
