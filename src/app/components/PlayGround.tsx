@@ -4,14 +4,21 @@ import CodeMirror from "@uiw/react-codemirror"
 import { vscodeDark } from "@uiw/codemirror-theme-vscode";
 import { javascript } from "@codemirror/lang-javascript";
 import EditorFooter from "./EditorFooter";
+
+
 export default function PlayGround(){
+  
+    const boilerPlate = `function twoSum(nums,target){
+    //Write your code here
+};`
+
     return (
         <div className="flex flex-col bg-dark-layer-1 relative overflow-x-hidden">
             <PreferenceNavbar />
             <Split className="h-[calc(100vh-34px)]" direction="vertical" sizes={[60,40]} minSize={60}>
                 <div className="w-full overflow-auto">
                     <CodeMirror 
-                    value="const a = 1;"
+                    value={boilerPlate}
                     theme={vscodeDark}
                     extensions={[javascript()]}
                     style={{fontSize:16}}/>
