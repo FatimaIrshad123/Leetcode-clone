@@ -1,24 +1,5 @@
 import assert from "assert";
-
-export type Example = {
-    id: number;
-    inputText: string;
-    outputText: string;
-    explanation?: string;
-    img?: string;
-};
-
-export type Problem = {
-    id: string;
-    title: string;
-    problemStatement: string;
-    examples: Example[];
-    constraints: string;
-    order: number;
-    starterCode: string;
-    handlerFunction: ((fn:any) => boolean) | string;
-    starterFunctionName: string;
-}
+import { Problem } from "../types/problem";
 
 const starterCodeTwoSum = `function(nums,target){
     // Write your Code here
@@ -39,7 +20,7 @@ const handlerTwoSum = (fn: any) => {
             assert.deepStrictEqual(result,answers[i]);
         }
         return true;
-        
+
     }catch (error: any){
         console.log("twoSun handler function error")
         throw new Error(error);
