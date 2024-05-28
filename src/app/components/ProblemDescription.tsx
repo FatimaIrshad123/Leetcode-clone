@@ -1,8 +1,12 @@
 import { AiFillLike, AiFillDislike } from "react-icons/ai";
 import { BsCheck2Circle } from "react-icons/bs";
 import { TiStarOutline } from "react-icons/ti";
+import { Problem } from "../mockProblems/problems";
 
-export default function ProblemDescription({problem}:any){
+type problemPageProps = {
+    problem : Problem
+}
+const ProblemDescription:React.FC<problemPageProps> = ({problem}) => {
     return (
         <div className='bg-dark-layer-1'>
         {/* TAB */}
@@ -17,7 +21,7 @@ export default function ProblemDescription({problem}:any){
                 {/* Problem heading */}
                 <div className='w-full'>
                     <div className='flex space-x-4'>
-                        <div className='flex-1 mr-2 text-lg text-white font-medium'>1. Two Sum</div>
+                        <div className='flex-1 mr-2 text-lg text-white font-medium'>Two sum</div>
                     </div>
                     <div className='flex items-center mt-3'>
                         <div
@@ -119,3 +123,5 @@ export default function ProblemDescription({problem}:any){
     </div>
     )
 }
+
+export default ProblemDescription
