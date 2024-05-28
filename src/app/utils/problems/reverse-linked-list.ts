@@ -1,4 +1,4 @@
-import { assert } from "console";
+import  assert  from "assert";
 import { Problem } from "../types/problem";
 import example from './Images/reverseLL.jpg'
 class LinkedList {

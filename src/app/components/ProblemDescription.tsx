@@ -2,7 +2,7 @@ import { AiFillLike, AiFillDislike } from "react-icons/ai";
 import { BsCheck2Circle } from "react-icons/bs";
 import { TiStarOutline } from "react-icons/ti";
 
-export default function ProblemDescription(){
+export default function ProblemDescription({problem}:any){
     return (
         <div className='bg-dark-layer-1'>
         {/* TAB */}
