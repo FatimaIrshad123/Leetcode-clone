@@ -7,6 +7,7 @@ type problemPageProps = {
     problem : Problem
 }
 const ProblemDescription:React.FC<problemPageProps> = ({problem}) => {
+    
     return (
         <div className='bg-dark-layer-1'>
         {/* TAB */}
