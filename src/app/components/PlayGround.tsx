@@ -10,7 +10,8 @@ import { useState } from "react";
 type PlaygroundProps = {
     problem: Problem;
 }
-export default function PlayGround({problem}:any){
+const PlayGround:React.FC<PlaygroundProps> = 
+ ({problem}:any)=>{
     const [activeTestCaseId,setActiveTextCaseId] = useState(0)
     return (
         <div className="flex flex-col bg-dark-layer-1 relative overflow-x-hidden">
@@ -63,3 +64,5 @@ export default function PlayGround({problem}:any){
         </div>
     )
 }
+
+export default PlayGround;

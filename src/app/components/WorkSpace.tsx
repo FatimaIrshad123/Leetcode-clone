@@ -1,9 +1,13 @@
 import Split from 'react-split'
 import ProblemDescription from './ProblemDescription'
 import PlayGround from './PlayGround'
+import { Problem } from '../utils/types/problem'
 
+type WorkSpaceProps = {
+    problem: Problem;
+}
 
-export default function WorkSpace({problem}:any){
+const WorkSpace:React.FC<WorkSpaceProps> = ({problem}) => {
     return (
     <div>
         <Split className='split' minSize={0}>
@@ -15,3 +19,4 @@ export default function WorkSpace({problem}:any){
     </div>
     )
 }
+export default WorkSpace;

@@ -1,12 +1,12 @@
 import { AiFillLike, AiFillDislike } from "react-icons/ai";
 import { BsCheck2Circle } from "react-icons/bs";
 import { TiStarOutline } from "react-icons/ti";
-import { Problem } from "../mockProblems/problems";
+import { Problem } from "../utils/types/problem";
 
 type problemPageProps = {
     problem : Problem
 }
-const ProblemDescription:React.FC = ({problem}:any) => {
+const ProblemDescription:React.FC<problemPageProps> = ({problem}) => {
     //console.log(problem)
     return (
         <div className='bg-dark-layer-1'>
