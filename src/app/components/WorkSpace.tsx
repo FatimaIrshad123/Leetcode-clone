@@ -8,7 +8,9 @@ export default function WorkSpace({problem}:any){
     <div>
         <Split className='split' minSize={0}>
              <ProblemDescription problem={problem}/>
-             <PlayGround />
+             <div>
+                <PlayGround problem={problem}/>
+             </div>
         </Split>
     </div>
     )
