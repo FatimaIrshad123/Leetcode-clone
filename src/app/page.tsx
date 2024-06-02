@@ -32,10 +32,10 @@ export default function Home() {
       order: Number(inputs.order)
     }
     await setDoc(doc(firestore, "problems", inputs.id), newProblem);
-    console.log('Hii')
+    //console.log('Hii')
     alert("save to db")
   }
-  //console.log(inputs)
+  
   return (
     <RecoilRoot>
       <main className="bg-dark-layer-2 min-h-screen">
