@@ -4,21 +4,12 @@ import { RecoilRoot } from "recoil";
 import ProblemTable from "./components/ProblemsTable";
 import Topbar from "./components/Topbar";
 import { useState } from "react";
-import { doc, setDoc } from "firebase/firestore"; 
-import { firestore } from "./firebase/firebase";
+//import { doc, setDoc } from "firebase/firestore"; 
+//import { firestore } from "./firebase/firebase";
 
 export default function Home() {
-  const [inputs,setInputs] = useState({
-    id:'',
-    title:'',
-    difficulty:'',
-    category:'',
-    videoId: '',
-    link: '',
-    order: 0,
-    likes:0,
-    dislikes: 0
-  })
+/*
+  const [inputs,setInputs] = useState({id:'',title:'',difficulty:'',category:'',videoId: '',link: '',order: 0,likes:0,dislikes: 0})
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputs ({
       ...inputs,
@@ -34,7 +25,7 @@ export default function Home() {
     await setDoc(doc(firestore, "problems", inputs.id), newProblem);
     //console.log('Hii')
     alert("save to db")
-  }
+  }*/
   
   return (
     <RecoilRoot>
@@ -67,6 +58,7 @@ export default function Home() {
         </div>
 
         {/*temporary form*/}
+        {/* 
         <form className="p-6 flex flex-col max-w-sm gap-3" onSubmit={handleSubmit}>
           <input onChange={handleInputChange} type="text" placeholder="problem id" name="id"/>
           <input onChange={handleInputChange} type="text" placeholder="title" name="title"/>
@@ -77,6 +69,7 @@ export default function Home() {
           <input onChange={handleInputChange} type="text" placeholder="link?" name="link"/>
           <button className="bg-white" type="submit">Save to db</button>
         </form>
+        */}
       </main>
     </RecoilRoot> 
   );
