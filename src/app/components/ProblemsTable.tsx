@@ -6,11 +6,16 @@ import YouTube from "react-youtube";
 import { IoCloseSharp } from "react-icons/io5";
 import { useEffect, useState } from "react";
 
-export default function ProblemTable(){
+type ProblemTableProps = {
+    setLoadingProblem: React.Dispatch<React.SetStateAction<boolean>>;
+}
+const ProblemTable: React.FC<ProblemTableProps> = ({setLoadingProblem}) => {
     const [youtubePlaye, setYoutubePlayer] = useState({
         isOpen: false,
         videoId: ""
     })
+    const problem = useGetProblem()
+
     const closeModel = () => {
         setYoutubePlayer({isOpen: false, videoId: ""})
     }
@@ -74,4 +79,17 @@ export default function ProblemTable(){
         )}
             </>
     )
+}
+
+export default ProblemTable;
+
+function useGetProblem(){
+    const [problem,setProblem] = useState([]);
+
+    useEffect(() => {
+        const getProblems = async () => {
+            setLoadingProblem(true);
+        }
+        getProblems()
+    },[])
 }
