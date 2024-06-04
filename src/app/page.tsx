@@ -41,8 +41,7 @@ export default function Home() {
                 </th>
               </tr>
             </thead>
-            )}
-            
+            )}            
             <ProblemTable setLoadingProblem={SetLoadingProblem}/>
           </table>
         </div>

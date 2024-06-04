@@ -77,7 +77,7 @@ const ProblemTable: React.FC<ProblemTableProps> = ({setLoadingProblem}) => {
                 </div>
             </tfoot>
         )}
-            </>
+    </>
     )
 }
 
