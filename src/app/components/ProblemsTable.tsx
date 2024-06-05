@@ -93,7 +93,7 @@ function useGetProblem(setLoadingProblem: React.Dispatch<React.SetStateAction<bo
             setLoadingProblem(true);
             const q = query(collection(firestore,"problems"),orderBy("order",'asc'))
             const querySnapshot = await getDocs(q)
-            console.log(q)
+            //console.log(q)
             console.log(querySnapshot)
             return querySnapshot
         }
