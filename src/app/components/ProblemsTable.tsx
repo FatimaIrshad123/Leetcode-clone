@@ -5,6 +5,8 @@ import { AiFillYoutube } from "react-icons/ai";
 import YouTube from "react-youtube";
 import { IoCloseSharp } from "react-icons/io5";
 import { useEffect, useState } from "react";
+import { collection, getDocs, orderBy, query } from "firebase/firestore";
+import { firestore } from "../firebase/firebase";
 
 type ProblemTableProps = {
     setLoadingProblem: React.Dispatch<React.SetStateAction<boolean>>;
@@ -14,7 +16,7 @@ const ProblemTable: React.FC<ProblemTableProps> = ({setLoadingProblem}) => {
         isOpen: false,
         videoId: ""
     })
-    const problem = useGetProblem()
+    const problem = useGetProblem(setLoadingProblem)
 
     const closeModel = () => {
         setYoutubePlayer({isOpen: false, videoId: ""})
@@ -83,13 +85,20 @@ const ProblemTable: React.FC<ProblemTableProps> = ({setLoadingProblem}) => {
 
 export default ProblemTable;
 
-function useGetProblem(){
+function useGetProblem(setLoadingProblem: React.Dispatch<React.SetStateAction<boolean>>){
     const [problem,setProblem] = useState([]);
-
+    
     useEffect(() => {
         const getProblems = async () => {
             setLoadingProblem(true);
+            const q = query(collection(firestore,"problems"),orderBy("order",'asc'))
+            const querySnapshot = await getDocs(q)
+            console.log(q)
+            console.log(querySnapshot)
+            return querySnapshot
         }
+        console.log(getProblems())
         getProblems()
     },[])
+    
 }
