@@ -32,29 +32,29 @@ const ProblemTable: React.FC<ProblemTableProps> = ({setLoadingProblem}) => {
     return (
         <>        
             <tbody className="text-white">
-                {problems.map((doc,idx) => {
-                    const difficultyColor = doc.difficulty === "Easy" ? "text-dark-green-s": doc.difficulty === "Medium" ? "text-dark-yellow": "text-dark-pink";
+                {problems.map((problem,idx) => {
+                    const difficultyColor = problem.difficulty === "Easy" ? "text-dark-green-s": problem.difficulty === "Medium" ? "text-dark-yellow": "text-dark-pink";
 
                     return (
-                        <tr className={`${idx % 2 === 1 ? 'bg-dark-layer-1' : ''}`} key={doc.id}>
+                        <tr className={`${idx % 2 === 1 ? 'bg-dark-layer-1' : ''}`} key={problem.id}>
                             <th className="px-2 py-4 font-medium whitespace-nowrap text-dark-green-s">
                                 <BsCheckCircle fontSize={'18'} width='18'/>
                             </th>
                             <td className="px-6 py-4">
-                                <Link href={`/problems/${doc.id}`} className="hover:text-blue-600 cursor-pointer">
-                                    {doc.title}
+                                <Link href={`/problems/${problem.id}`} className="hover:text-blue-600 cursor-pointer">
+                                    {problem.title}
                                 </Link>
                             </td>
                             <td className={`px-6 py-4 ${difficultyColor}`}>
-                                {doc.difficulty}
+                                {problem.difficulty}
                             </td>
                             <td className={`px-6 py-4`}>
-                                {doc.category}
+                                {problem.category}
                             </td>
                             <td className={`px-6 py-4`}>
-                                {doc.videoId ? (
+                                {problem.videoId ? (
                                     <AiFillYoutube 
-                                    onClick={() => setYoutubePlayer({isOpen:true, videoId: doc.id as string})}
+                                    onClick={() => setYoutubePlayer({isOpen:true, videoId: problem.id as string})}
                                     fontSize={'18'}
                                     className="cursor-pointer hover:text-red-500"/>
                                 ) : (
@@ -93,12 +93,13 @@ function useGetProblem(setLoadingProblem: React.Dispatch<React.SetStateAction<bo
             setLoadingProblem(true);
             const q = query(collection(firestore,"problems"),orderBy("order",'asc'))
             const querySnapshot = await getDocs(q)
-            //console.log(q)
-            console.log(querySnapshot)
-            return querySnapshot
+            let tmp:any = [];
+            querySnapshot.forEach((doc) => {
+                tmp.push({id:doc.id, ...doc.data()})
+              });
+              setProblem(tmp)
+              setLoadingProblem(false)
         }
-        console.log(getProblems())
         getProblems()
     },[])
-    
 }
