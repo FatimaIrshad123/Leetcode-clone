@@ -7,6 +7,7 @@ import { IoCloseSharp } from "react-icons/io5";
 import { useEffect, useState } from "react";
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { firestore } from "../firebase/firebase";
+import { DBProblem } from "../utils/types/problem";
 
 type ProblemTableProps = {
     setLoadingProblem: React.Dispatch<React.SetStateAction<boolean>>;
@@ -86,16 +87,16 @@ const ProblemTable: React.FC<ProblemTableProps> = ({setLoadingProblem}) => {
 export default ProblemTable;
 
 function useGetProblem(setLoadingProblem: React.Dispatch<React.SetStateAction<boolean>>){
-    const [problem,setProblem] = useState([]);
+    const [problem,setProblem] = useState<DBProblem[]>([]);
     
     useEffect(() => {
         const getProblems = async () => {
             setLoadingProblem(true);
             const q = query(collection(firestore,"problems"),orderBy("order",'asc'))
             const querySnapshot = await getDocs(q)
-            let tmp:any = [];
+            let tmp:DBProblem[] = [];
             querySnapshot.forEach((doc) => {
-                tmp.push({id:doc.id, ...doc.data()})
+                tmp.push({id:doc.id, ...doc.data()} as DBProblem)
               });
               setProblem(tmp)
               setLoadingProblem(false)
