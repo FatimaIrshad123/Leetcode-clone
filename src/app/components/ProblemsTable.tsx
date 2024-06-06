@@ -17,7 +17,7 @@ const ProblemTable: React.FC<ProblemTableProps> = ({setLoadingProblem}) => {
         isOpen: false,
         videoId: ""
     })
-    const problem = useGetProblem(setLoadingProblem)
+    const problems = useGetProblem(setLoadingProblem)
 
     const closeModel = () => {
         setYoutubePlayer({isOpen: false, videoId: ""})
@@ -42,9 +42,13 @@ const ProblemTable: React.FC<ProblemTableProps> = ({setLoadingProblem}) => {
                                 <BsCheckCircle fontSize={'18'} width='18'/>
                             </th>
                             <td className="px-6 py-4">
-                                <Link href={`/problems/${problem.id}`} className="hover:text-blue-600 cursor-pointer">
-                                    {problem.title}
-                                </Link>
+                               {problem.link ? (
+                                <Link href={problem.link} className="hover:text-blue-600 cursor-pointer" target="_blank">{problem.title}</Link>
+                               ): (
+                                 <Link href={`/problems/${problem.id}`} className="hover:text-blue-600 cursor-pointer">
+                                 {problem.title}
+                             </Link>
+                               )}
                             </td>
                             <td className={`px-6 py-4 ${difficultyColor}`}>
                                 {problem.difficulty}
@@ -87,7 +91,7 @@ const ProblemTable: React.FC<ProblemTableProps> = ({setLoadingProblem}) => {
 export default ProblemTable;
 
 function useGetProblem(setLoadingProblem: React.Dispatch<React.SetStateAction<boolean>>){
-    const [problem,setProblem] = useState<DBProblem[]>([]);
+    const [problems,setProblem] = useState<DBProblem[]>([]);
     
     useEffect(() => {
         const getProblems = async () => {
@@ -103,4 +107,5 @@ function useGetProblem(setLoadingProblem: React.Dispatch<React.SetStateAction<bo
         }
         getProblems()
     },[])
+    return problems
 }
