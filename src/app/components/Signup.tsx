@@ -2,9 +2,10 @@ import { useSetRecoilState } from "recoil"
 import { authModelState } from "../atoms/authModelAtom"
 import { useEffect, useState } from "react"
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
-import { auth } from "../firebase/firebase";
+import { auth, firestore } from "../firebase/firebase";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import { doc, setDoc } from "firebase/firestore"; 
 
 export default function Signup(){
     const setAuthModelState = useSetRecoilState(authModelState)
@@ -23,12 +24,26 @@ export default function Signup(){
     const handleRegister = async (e:React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if(!input.email || !input.password) return 
-        try{
+        try{toast.loading("Creating your account", {position:"top-center", toastId:"loadingToast"})
             const newUser = await createUserWithEmailAndPassword(input.email, input.password)
             if(!newUser)return;
+            const userData = {
+                uid: newUser.user.uid,
+                email: newUser.user.email,
+                displayName: input.displayName,
+                createdAt: Date.now(),
+                updatedAt: Date.now(),
+                likedProblems: [],
+                dislikedProblems: [],
+                solvedProblems: [],
+                starredProblems:[]
+            }
+            await setDoc(doc(firestore,"users",newUser.user.uid),userData)
             router.push('/')
         }catch(error:any){
-            toast.error(error.message, {position: "top-center",autoClose: 3000, theme: 'dark'})
+            toast.error(error.message, {position: "top-center"})
+        }finally {
+            toast.dismiss('loadingToast')
         }
     }
 
