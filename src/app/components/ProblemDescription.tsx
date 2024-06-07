@@ -1,4 +1,6 @@
 import { AiFillLike, AiFillDislike } from "react-icons/ai";
+import  RectangleSkeleton from './skeletons/RectangleSkeleton'
+import CircleSkeleton from "./skeletons/CircleSkeleton";
 import { doc, getDoc } from "firebase/firestore";
 import { BsCheck2Circle } from "react-icons/bs";
 import { TiStarOutline } from "react-icons/ti";
@@ -52,6 +54,17 @@ const ProblemDescription:React.FC<problemPageProps> = ({problem}) => {
                     </div>
                     )}
 
+                    {loading && (
+                        <div className="mt- flex space-x-2">
+                            <RectangleSkeleton />
+                            <CircleSkeleton />
+                            <RectangleSkeleton />
+                            <RectangleSkeleton />
+                            <CircleSkeleton />
+                        </div>
+                    )
+
+                    }
                     {/* Problem Statement(paragraphs) */}
                     <div className='text-white text-sm'>
                        <div dangerouslySetInnerHTML={{ __html : problem.problemStatement}}/>
