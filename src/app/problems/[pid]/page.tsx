@@ -12,15 +12,6 @@ type problemPageProps = {
     problem: Problem
 }
 
-/*const problemPage: React.FC<problemPageProps> = ({problem}) =>{
-   console.log(problem)
-    return (
-        <div>
-            <Topbar problemPage/>
-            <WorkSpace problem={problem}/>
-        </div>
-    )
-};*/
 const problemPage = ({ params }: { params: { pid: string } }) => {
 	const { pid } = params;
 	const problem = problems[pid];
@@ -52,18 +43,3 @@ export async function getStaticPaths() {
 		fallback: false,
 	};
 }
-
-// getStaticProps => it fetch the data
-
-/*export async function getStaticProps({ params }: { params: { pid: string } }) {
-	const { pid } = params;
-	const problem = problems[pid];
-console.log(problem)
-	if (!problem) {
-		return {
-			notFound: true,
-		};
-	}
-	problem.handlerFunction = problem.handlerFunction.toString();
-	return {props: {problem}};
-}*/
