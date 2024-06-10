@@ -1,7 +1,7 @@
 import { AiFillLike, AiFillDislike } from "react-icons/ai";
 import  RectangleSkeleton from './skeletons/RectangleSkeleton'
 import CircleSkeleton from "./skeletons/CircleSkeleton";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, runTransaction } from "firebase/firestore";
 import { BsCheck2Circle } from "react-icons/bs";
 import { TiStarOutline } from "react-icons/ti";
 import { DBProblem, Problem } from "../utils/types/problem";
@@ -14,7 +14,7 @@ type problemPageProps = {
     problem : Problem
 }
 const ProblemDescription:React.FC<problemPageProps> = ({problem}) => {
-    const {currentProblem,loading,problemDifficultyClass} = useGetCurrentProblem(problem.id)
+    const {currentProblem,loading,problemDifficultyClass, setCurrentProblem} = useGetCurrentProblem(problem.id)
     //console.log(problem)
     const {liked,disliked,solved,starred,setData} = useGetUsersDataOnProblem(problem.id);
     const [user] = useAuthState(auth)
@@ -24,7 +24,39 @@ const ProblemDescription:React.FC<problemPageProps> = ({problem}) => {
             toast.error("You must be logged in to like a problem", {position:"top-center",theme:"dark"})
             return 
         }
+        await runTransaction(firestore,async (transaction) => {
+            const userRef = doc(firestore,"users",user.uid);
+            const problemRef = doc(firestore, "problems",problem.id);
+            const userDoc = await transaction.get(userRef);
+            const problemDoc = await transaction.get(problemRef);
+            if (userDoc.exists() && problemDoc.exists()){
+                if (liked){
+                    transaction.update(userRef, {
+                        likedProblems: userDoc.data().likedProblems.filter((id:string) => id !== problem.id)
+                    })
+                    transaction.update(problemRef,{
+                        likes:problemDoc.data().likes - 1
+                    })
+                    setCurrentProblem(prev => ({...prev, likes:prev?.likes - 1}))
+                    setData(prev => ({...prev,liked:false}))
+                }else if (disliked){
+                    transaction.update(userRef, {
+                        likedProblems: [...userDoc.data().likedProblems,problem.id],
+                        dislikedProblems: userDoc.data().dislikedProblems.filter((id:string) => id !== problem.id)
+                    })
+                    transaction.update(problemRef, {
+                        likes: problemDoc.data().likes + 1,
+                        dislikes: problemDoc.data().dislikes + 1
+                    })
+                    setCurrentProblem(prev => ({...prev,likes:prev?.likes+ 1, dislikes: prev?.dislikes - 1}))
+                    setData(prev => ({prev,liked:true,disliked:false}))
+                }else {
+
+                }
+            }
+        })
     }
+
     return (
         <div className='bg-dark-layer-1'>
         {/* TAB */}
@@ -145,7 +177,7 @@ export function useGetCurrentProblem(problemId:string){
         }
         getCurrentProblem();
     },[])
-    return {currentProblem,loading,problemDifficultyClass}
+    return {currentProblem,loading,problemDifficultyClass, setCurrentProblem}
 }
 
 function useGetUsersDataOnProblem(problemId: string){
