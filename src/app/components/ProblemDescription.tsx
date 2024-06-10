@@ -8,6 +8,7 @@ import { DBProblem, Problem } from "../utils/types/problem";
 import { useEffect, useState } from "react";
 import { auth, firestore } from "../firebase/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { toast } from "react-toastify";
 
 type problemPageProps = {
     problem : Problem
@@ -16,7 +17,14 @@ const ProblemDescription:React.FC<problemPageProps> = ({problem}) => {
     const {currentProblem,loading,problemDifficultyClass} = useGetCurrentProblem(problem.id)
     //console.log(problem)
     const {liked,disliked,solved,starred,setData} = useGetUsersDataOnProblem(problem.id);
-
+    const [user] = useAuthState(auth)
+    
+    const handleLike = async() => {
+        if(!user){
+            toast.error("You must be logged in to like a problem", {position:"top-center",theme:"dark"})
+            return 
+        }
+    }
     return (
         <div className='bg-dark-layer-1'>
         {/* TAB */}
@@ -43,7 +51,8 @@ const ProblemDescription:React.FC<problemPageProps> = ({problem}) => {
                         <div className='rounded p-[3px] ml-4 text-lg transition-colors duration-200 text-green-s text-dark-green-s'>
                             <BsCheck2Circle />
                         </div>
-                        <div className='flex items-center cursor-pointer hover:bg-dark-fill-3 space-x-1 rounded p-[3px]  ml-4 text-lg transition-colors duration-200 text-dark-gray-6'>
+                        <div className='flex items-center cursor-pointer hover:bg-dark-fill-3 space-x-1 rounded p-[3px]  ml-4 text-lg transition-colors duration-200 text-dark-gray-6'
+                        onClick={handleLike}>
                             {liked && <AiFillLike className="text-dark-blue-s"/>}
                             {!liked && <AiFillLike />}
                             <span className='text-xs'>{currentProblem.likes}</span>
