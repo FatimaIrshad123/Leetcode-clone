@@ -19,16 +19,21 @@ const ProblemDescription:React.FC<problemPageProps> = ({problem}) => {
     const {liked,disliked,solved,starred,setData} = useGetUsersDataOnProblem(problem.id);
     const [user] = useAuthState(auth)
     
+    const returnUserDataAndProblemData = async (transaction:any) => {
+        const userRef = doc(firestore,"users",user!.uid);
+        const problemRef = doc(firestore, "problems",problem.id);
+        const userDoc = await transaction.get(userRef);
+        const problemDoc = await transaction.get(problemRef);
+        return {userDoc,problemDoc,userRef, problemRef}
+    }
+
     const handleLike = async() => {
         if(!user){
             toast.error("You must be logged in to like a problem", {position:"top-center",theme:"dark"})
             return 
         }
         await runTransaction(firestore,async (transaction) => {
-            const userRef = doc(firestore,"users",user.uid);
-            const problemRef = doc(firestore, "problems",problem.id);
-            const userDoc = await transaction.get(userRef);
-            const problemDoc = await transaction.get(problemRef);
+            const {problemDoc,userDoc,userRef,problemRef} = await returnUserDataAndProblemData(transaction)
             if (userDoc.exists() && problemDoc.exists()){
                 if (liked){
                     transaction.update(userRef, {
@@ -64,6 +69,46 @@ const ProblemDescription:React.FC<problemPageProps> = ({problem}) => {
         })
     }
 
+    const handleDislike = async () => {
+        if(!user){
+            toast.error("You must be logged in to like a problem", {position:"top-center",theme:"dark"})
+            return 
+        }
+        await runTransaction(firestore, async (transaction) => {
+            const {problemDoc,userDoc,userRef,problemRef} = await returnUserDataAndProblemData(transaction)
+            if (userDoc.exists() && problemDoc.exists()){
+                if (disliked){
+                    transaction.update(userRef, {
+                        dislikedProblems: userDoc.data().dislikedProblems.filter((id:string) => id !== problem.id)
+                        })
+                        transaction.update(problemRef, {
+                            dislikes: problemDoc.data().dislikes - 1
+                    })
+                    setCurrentProblem((prev) => prev ? {...prev, dislikes: prev.dislikes - 1} : null);
+                    setData((prev) => ({...prev, disliked: false}))
+                }else if (liked){
+                    transaction.update(userRef, {
+                        dislikedProblems: [...userDoc.data().dislikedProblems, problem.id],
+                        likedProblems: userDoc.data().likedProblems.filter((id:string) => id !== problem.id)
+                    })
+                    transaction.update(problemRef, {
+                        dislikes: problemDoc.data().dislikes + 1,
+                        likes: problemDoc.data().likes - 1
+                    })
+                    setCurrentProblem((prev) => prev ? {...prev, dislikes: prev.dislikes + 1, likes : prev.likes - 1} : null);
+                }else {
+                    transaction.update(userRef, {
+                        dislikedProblems: [...userDoc.data().dislikedProblems,problem.id]
+                    })
+                    transaction.update(problemRef, {
+                        dislkes: problemDoc.data().dislikes + 1
+                    })
+                    setCurrentProblem((prev) => prev ? {...prev, dislikes: prev.dislikes + 1} : null);
+                    setData((prev) => ({...prev,disliked:true}));
+                }
+            }
+        })
+    }
     return (
         <div className='bg-dark-layer-1'>
         {/* TAB */}
@@ -96,7 +141,7 @@ const ProblemDescription:React.FC<problemPageProps> = ({problem}) => {
                             {!liked && <AiFillLike />}
                             <span className='text-xs'>{currentProblem.likes}</span>
                         </div>
-                        <div className='flex items-center cursor-pointer hover:bg-dark-fill-3 space-x-1 rounded p-[3px]  ml-4 text-lg transition-colors duration-200 text-green-s text-dark-gray-6'>
+                        <div className='flex items-center cursor-pointer hover:bg-dark-fill-3 space-x-1 rounded p-[3px]  ml-4 text-lg transition-colors duration-200 text-green-s text-dark-gray-6' onClick={handleDislike}>
                             <AiFillDislike />
                             <span className='text-xs'>{currentProblem.dislikes}</span>
                         </div>
