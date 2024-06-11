@@ -49,9 +49,16 @@ const ProblemDescription:React.FC<problemPageProps> = ({problem}) => {
                         dislikes: problemDoc.data().dislikes + 1
                     })
                     setCurrentProblem(prev => ({...prev,likes:prev?.likes+ 1, dislikes: prev?.dislikes - 1}))
-                    setData(prev => ({prev,liked:true,disliked:false}))
+                    setData(prev => ({...prev,liked:true,disliked:false}))
                 }else {
-
+                    transaction.update(userRef, {
+                        likedProblems: [...userDoc.data().likedProblems,problem.id]
+                    })
+                    transaction.update(problemRef, {
+                        likes: problemDoc.data().likes + 1
+                    })
+                    setCurrentProblem(prev => ({...prev,likes: prev?.likes + 1}))
+                    setData(prev => ({...prev,liked:true}))
                 }
             }
         })
