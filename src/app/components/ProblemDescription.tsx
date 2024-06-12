@@ -1,7 +1,7 @@
-import { AiFillLike, AiFillDislike } from "react-icons/ai";
+import { AiFillLike, AiFillDislike, AiFillStar } from "react-icons/ai";
 import  RectangleSkeleton from './skeletons/RectangleSkeleton'
 import CircleSkeleton from "./skeletons/CircleSkeleton";
-import { doc, getDoc, runTransaction } from "firebase/firestore";
+import { arrayRemove, arrayUnion, doc, getDoc, runTransaction, updateDoc } from "firebase/firestore";
 import { BsCheck2Circle } from "react-icons/bs";
 import { TiStarOutline } from "react-icons/ti";
 import { DBProblem, Problem } from "../utils/types/problem";
@@ -18,7 +18,7 @@ const ProblemDescription:React.FC<problemPageProps> = ({problem}) => {
     //console.log(problem)
     const {liked,disliked,solved,starred,setData} = useGetUsersDataOnProblem(problem.id);
     const [user] = useAuthState(auth)
-    
+
     const returnUserDataAndProblemData = async (transaction:any) => {
         const userRef = doc(firestore,"users",user!.uid);
         const problemRef = doc(firestore, "problems",problem.id);
@@ -109,6 +109,26 @@ const ProblemDescription:React.FC<problemPageProps> = ({problem}) => {
             }
         })
     }
+
+    const handleStar = async() => {
+        if(!user){
+            toast.error("You must be logged in to like a problem", {position:"top-center",theme:"dark"})
+            return 
+        }
+        if(!starred){
+            const userRef = doc(firestore,"users",user.uid);
+            await updateDoc(userRef, {
+                starredProblems: arrayUnion(problem.id)
+            })
+            setData((prev) => ({...prev, starred: true}))
+        }else{
+            const userRef = doc(firestore,'users',user.uid);
+            await updateDoc(userRef, {
+                starredProblems: arrayRemove(problem.id)
+            })
+            setData((prev) => ({...prev, starred: false}))
+        }
+    }
     return (
         <div className='bg-dark-layer-1'>
         {/* TAB */}
@@ -145,8 +165,10 @@ const ProblemDescription:React.FC<problemPageProps> = ({problem}) => {
                             <AiFillDislike />
                             <span className='text-xs'>{currentProblem.dislikes}</span>
                         </div>
-                        <div className='cursor-pointer hover:bg-dark-fill-3  rounded p-[3px]  ml-4 text-xl transition-colors duration-200 text-green-s text-dark-gray-6 '>
-                            <TiStarOutline />
+                        <div className='cursor-pointer hover:bg-dark-fill-3  rounded p-[3px]  ml-4 text-xl transition-colors duration-200 text-green-s text-dark-gray-6' onClick={handleStar}>
+                            {starred && <AiFillStar className="text-dark-yellow"/>}
+                            {!starred && <TiStarOutline />}
+                            
                         </div>
                     </div>
                     )}
