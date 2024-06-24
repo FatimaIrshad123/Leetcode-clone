@@ -4,9 +4,14 @@ import { RecoilRoot } from "recoil";
 import ProblemTable from "./components/ProblemsTable";
 import Topbar from "./components/Topbar";
 import { useState } from "react";
+import useHasMounted from "./hooks/useHasMounted";
 
 export default function Home() {
-  const [loadingProblem,SetLoadingProblem] = useState(true)
+  const [loadingProblem,SetLoadingProblem] = useState(true);
+  const hasMounted = useHasMounted();
+
+  if (!hasMounted) return null;
+  
   return (
     <RecoilRoot>
       <main className="bg-dark-layer-2 min-h-screen">
