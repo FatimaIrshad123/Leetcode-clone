@@ -9,10 +9,18 @@ import { useState } from "react";
 
 type PlaygroundProps = {
     problem: Problem;
+    setSuccess: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const PlayGround:React.FC<PlaygroundProps> = 
- ({problem}:any)=>{
-    const [activeTestCaseId,setActiveTextCaseId] = useState(0)
+ ({problem, setSuccess}:any)=>{
+    const [activeTestCaseId,setActiveTextCaseId] = useState(0);
+
+    const handleSubmit = () => {
+        alert('Submited');
+    }
+    const onChange = (value: string) => {
+        console.log(value);
+    }
     return (
         <div className="flex flex-col bg-dark-layer-1 relative overflow-x-hidden">
             <PreferenceNavbar />
@@ -21,6 +29,7 @@ const PlayGround:React.FC<PlaygroundProps> =
                     <CodeMirror 
                     value={problem.starterCode}
                     theme={vscodeDark}
+                    onChange={onChange}
                     extensions={[javascript()]}
                     style={{fontSize:16}}/>
                 </div>
@@ -60,7 +69,7 @@ const PlayGround:React.FC<PlaygroundProps> =
                     </div>
                 </div>
             </Split>
-            <EditorFooter />
+            <EditorFooter handleSubmit={handleSubmit}/>
         </div>
     )
 }

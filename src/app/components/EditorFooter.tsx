@@ -1,6 +1,6 @@
 import { BsChevronUp } from "react-icons/bs";
 
-export default function EditorFooter(){
+export default function EditorFooter({handleSubmit}:any){
     return (
         <div className="flex bg-dark-layer-1 absolute bottom-0 w-full z-10">
             <div className="mx-5 my-[10px] flex justify-between w-full">
@@ -16,7 +16,7 @@ export default function EditorFooter(){
                     <button className="px-3 py-1.5 text-sm font-medium items-center whitespace-nowrap transition-all focus:outline-none inline-flex bg-dark-fill-3 hover:bg-dark-fill-2 text-dark-label-2 rounded-lg">
                         Run
                     </button>
-                    <button className="px-3 py-1.5 text-sm font-medium items-center whitespace-nowrap transition-all focus:outline-none inline-flex text-white bg-dark-green-s hover:bg-green-3 rounded-lg">
+                    <button className="px-3 py-1.5 text-sm font-medium items-center whitespace-nowrap transition-all focus:outline-none inline-flex text-white bg-dark-green-s hover:bg-green-3 rounded-lg" onClick={handleSubmit}>
                         Submit
                     </button>
                 </div>
