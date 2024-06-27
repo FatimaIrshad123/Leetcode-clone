@@ -10,7 +10,8 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../firebase/firebase";
 import { toast } from "react-toastify";
 import { problems } from "../utils/problems";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
+import { useSearchParams } from 'next/navigation';
 
 type PlaygroundProps = {
     problem: Problem;
@@ -21,7 +22,11 @@ const PlayGround:React.FC<PlaygroundProps> =
     const [activeTestCaseId,setActiveTextCaseId] = useState(0);
     const [userCode,setUserCode] = useState<string>(problem.starterCode)
     const [user] = useAuthState(auth);
-    const {query : {pid}} = useRouter()
+    //const {query : {pid}} = useRouter()
+    const searchParams = useSearchParams();
+  const pid = searchParams.get('pid');
+  console.log(pid)
+
     const handleSubmit = async() => {
         if (!user){
             toast.error("Please login to submit your code", {
@@ -33,7 +38,17 @@ const PlayGround:React.FC<PlaygroundProps> =
         }
         try {
             const cb = new Function(`return ${userCode}`);
-            const result = problems[pid as string].handlerFunction(cb);
+            const success = problems[pid as string].handlerFunction(cb);
+            //const success = [problem.id]
+            if (success){
+                toast.success('Congrats! All tests passed!', {
+                    position:"top-center",autoClose:3000, theme: "dark"
+                })
+                setSuccess(true);
+                setTimeout(() => {
+                    setSuccess(false)
+                },4000)
+            }
         }catch (error){
             console.log(error);
         }
