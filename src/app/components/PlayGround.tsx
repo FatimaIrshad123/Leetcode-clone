@@ -6,6 +6,11 @@ import { javascript } from "@codemirror/lang-javascript";
 import EditorFooter from "./EditorFooter";
 import { Problem } from "../utils/types/problem";
 import { useState } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../firebase/firebase";
+import { toast } from "react-toastify";
+import { problems } from "../utils/problems";
+import { useRouter } from "next/router";
 
 type PlaygroundProps = {
     problem: Problem;
@@ -14,9 +19,24 @@ type PlaygroundProps = {
 const PlayGround:React.FC<PlaygroundProps> = 
  ({problem, setSuccess}:any)=>{
     const [activeTestCaseId,setActiveTextCaseId] = useState(0);
-
-    const handleSubmit = () => {
-        alert('Submited');
+    const [userCode,setUserCode] = useState<string>(problem.starterCode)
+    const [user] = useAuthState(auth);
+    const {query : {pid}} = useRouter()
+    const handleSubmit = async() => {
+        if (!user){
+            toast.error("Please login to submit your code", {
+                position: "top-center",
+                autoClose: 3000,
+                theme:"dark"
+            })
+            return
+        }
+        try {
+            const cb = new Function(`return ${userCode}`);
+            const result = problems[pid as string].handlerFunction(cb);
+        }catch (error){
+            console.log(error);
+        }
     }
     const onChange = (value: string) => {
         console.log(value);
