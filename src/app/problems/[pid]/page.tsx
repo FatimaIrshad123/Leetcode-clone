@@ -1,44 +1,42 @@
-'use client'
+//'use client'
 
 import { useParams } from 'next/navigation'
 import Topbar from "@/app/components/Topbar"
 import WorkSpace from "@/app/components/WorkSpace"
 import { Problem } from "@/app/mockProblems/problems"
 import { problems } from "@/app/utils/problems"
+import useHasMounted from '@/app/hooks/useHasMounted'
 
+import ProblemClientComponent from './ProblemClientComponent';
 
-type problemPageProps = {
-    problem: Problem
+interface ProblemPageProps {
+  params: {
+    pid: string;
+  };
 }
 
-const problemPage = ({ params }: { params: { pid: string } }) => {
-	const { pid } = params;
-	const problem = problems[pid];
-	
-	if (!problem) {
-	  return {
-		notFound: true,
-	}}
-	
-	return (
-		<div>
-		<Topbar problemPage/>
-		<WorkSpace problem={problem}/>
-	</div>
-	);
-  };
+const ProblemPage = ({ params }:  { params: { pid: string }}) => {
+  const { pid } = params;
+  const problem = problems[pid];
+	console.log();
+  if (!problem) {
+    return <div>Problem not found</div>;
+  }
+  console.log('hiii')
 
-export default problemPage;
+  problem.handlerFunction = problem.handlerFunction.toString();
 
+  return (
+    <ProblemClientComponent problem={problem} />
+  );
+};
 
+export default ProblemPage;
 
-export async function getStaticPaths() {
-	const paths = Object.keys(problems).map((key) => ({
-		params: { pid: key },
-	}));
-
-	return {
-		paths,
-		fallback: false,
-	};
+export async function generateStaticParams() {
+  const paths = Object.keys(problems).map((pid) => ({
+    pid,
+  }));
+  //console.log(paths)
+  return paths;
 }

@@ -12,7 +12,32 @@ type ProblemPageProps = {
 	problem: Problem;
 };
 
-const ProblemPage: React.FC = ({ problem }:any) => {
+const ProblemPage: any = ({ params }: { params: { pid: string } }) => {
+	const { pid } = params;
+	const problem = problems[pid];
+  
+	if (!problem) {
+	  return <div>Problem not found</div>;
+	}
+  
+	return (
+	  <div>
+		<Topbar problemPage />
+		<WorkSpace problem={problem} />
+	  </div>
+	);
+  };
+  
+  export default ProblemPage;
+  
+  export async function generateStaticParams() {
+	const paths = Object.keys(problems).map((pid) => ({
+	  pid,
+	}));
+  
+	return paths;
+  }
+/*const ProblemPage: React.FC = ({ problem }:any) => {
 	const hasMounted = useHasMounted();
 
 	if (!hasMounted) return null;
@@ -42,7 +67,7 @@ export async function getStaticPaths() {
 
 // getStaticProps => it fetch the data
 
-export async function getStatic({ params }: { params: { pid: string } }) {
+export async function getStaticProps({ params }: { params: { pid: string } }) {
 	const { pid } = params;
 	const problem = problems[pid];
 	console.log(pid)
@@ -57,4 +82,4 @@ export async function getStatic({ params }: { params: { pid: string } }) {
 			problem,
 		},
 	};
-}
+}*/

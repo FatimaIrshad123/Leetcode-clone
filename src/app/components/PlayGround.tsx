@@ -25,7 +25,7 @@ const PlayGround:React.FC<PlaygroundProps> =
     //const {query : {pid}} = useRouter()
     const searchParams = useSearchParams();
   const pid = searchParams.get('pid');
-  console.log(pid)
+  //console.log(pid)
 
     const handleSubmit = async() => {
         if (!user){
