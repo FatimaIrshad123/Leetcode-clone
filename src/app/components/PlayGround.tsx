@@ -10,7 +10,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../firebase/firebase";
 import { toast } from "react-toastify";
 import { problems } from "../utils/problems";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useSearchParams } from 'next/navigation';
 
 type PlaygroundProps = {
@@ -23,10 +23,10 @@ const PlayGround:React.FC<PlaygroundProps> =
     const [userCode,setUserCode] = useState<string>(problem.starterCode)
     const [user] = useAuthState(auth);
     //const {query : {pid}} = useRouter()
-    const searchParams = useSearchParams();
-  const pid = searchParams.get('pid');
-  //console.log(pid)
-
+    
+    const params = useParams()
+    const pids = params.pid;
+    console.log(pids)
     const handleSubmit = async() => {
         if (!user){
             toast.error("Please login to submit your code", {

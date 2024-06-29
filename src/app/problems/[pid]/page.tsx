@@ -18,7 +18,7 @@ interface ProblemPageProps {
 const ProblemPage = ({ params }:  { params: { pid: string }}) => {
   const { pid } = params;
   const problem = problems[pid];
-	console.log();
+	
   if (!problem) {
     return <div>Problem not found</div>;
   }
@@ -27,7 +27,7 @@ const ProblemPage = ({ params }:  { params: { pid: string }}) => {
   problem.handlerFunction = problem.handlerFunction.toString();
 
   return (
-    <ProblemClientComponent problem={problem} />
+    <ProblemClientComponent problem={problem} pid={pid}/>
   );
 };
 
