@@ -26,7 +26,7 @@ const PlayGround:React.FC<PlaygroundProps> =
     
     const params = useParams()
     const pids = params.pid;
-    console.log(pids)
+    //console.log(pids)
     const handleSubmit = async() => {
         if (!user){
             toast.error("Please login to submit your code", {
@@ -38,8 +38,9 @@ const PlayGround:React.FC<PlaygroundProps> =
         }
         try {
             const cb = new Function(`return ${userCode}`);
-            const success = problems[pid as string].handlerFunction(cb);
+            const success = problems[pids as string].handlerFunction(cb);
             //const success = [problem.id]
+            console.log(success)
             if (success){
                 toast.success('Congrats! All tests passed!', {
                     position:"top-center",autoClose:3000, theme: "dark"

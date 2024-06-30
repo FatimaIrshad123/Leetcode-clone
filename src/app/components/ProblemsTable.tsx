@@ -104,8 +104,8 @@ function useGetProblem(setLoadingProblem: React.Dispatch<React.SetStateAction<bo
               });
               setProblem(tmp)
               setLoadingProblem(false)
-        }
-        getProblems()
+        };
+        getProblems();
     },[])
     return problems
 }
