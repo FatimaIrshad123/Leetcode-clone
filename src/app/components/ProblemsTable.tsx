@@ -93,7 +93,7 @@ export default ProblemTable;
 function useGetProblem(setLoadingProblem: React.Dispatch<React.SetStateAction<boolean>>){
     const [problems,setProblem] = useState<DBProblem[]>([]);
     
-    useEffect(() => {
+   useEffect(() => {
         const getProblems = async () => {
             setLoadingProblem(true);
             const q = query(collection(firestore,"problems"),orderBy("order",'asc'))
@@ -104,8 +104,10 @@ function useGetProblem(setLoadingProblem: React.Dispatch<React.SetStateAction<bo
               });
               setProblem(tmp)
               setLoadingProblem(false)
+              console.log('hii')
         };
         getProblems();
     },[])
+    
     return problems
 }
