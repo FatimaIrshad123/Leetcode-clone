@@ -13,6 +13,7 @@ type WorkSpaceProps = {
 const WorkSpace:React.FC<WorkSpaceProps> = ({problem}) => {
     const {width,height} = useWindowSize();
     const [success,setSuccess] = useState(false);
+    
     return (
     <div>
         <Split className='split' minSize={0}>

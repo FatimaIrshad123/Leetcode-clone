@@ -26,8 +26,9 @@ export default function Topbar({ problemPage }: TopbarProps){
 
 	const handleProblemChange = (isForward: boolean) => {
 		const pid = searchParams.get('pid');
-		if (!pid) return; // handle the case where pid is not present
 		console.log(pid)
+		if (!pid) return; // handle the case where pid is not present
+		
 		const { order } = problems[pid];
 		const direction = isForward ? 1 : -1;
 		const nextProblemOrder = order + direction;

@@ -28,7 +28,8 @@ const PlayGround:React.FC<PlaygroundProps> =
     const pids = params.pid;
     //console.log(pids)
     const handleSubmit = async() => {
-        if (!user){
+        alert ('Submitted')
+        /*if (!user){
             toast.error("Please login to submit your code", {
                 position: "top-center",
                 autoClose: 3000,
@@ -38,7 +39,7 @@ const PlayGround:React.FC<PlaygroundProps> =
         }
         try {
             const cb = new Function(`return ${userCode}`);
-            const success = problems[pids as string].handlerFunction(cb);
+            const success = problems[pids as string].handlerFunction(cd);
             //const success = [problem.id]
             console.log(success)
             if (success){
@@ -52,7 +53,7 @@ const PlayGround:React.FC<PlaygroundProps> =
             }
         }catch (error){
             console.log(error);
-        }
+        }*/
     }
     const onChange = (value: string) => {
         console.log(value);
