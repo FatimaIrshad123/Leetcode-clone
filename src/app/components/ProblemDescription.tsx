@@ -11,9 +11,10 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { toast } from "react-toastify";
 
 type problemPageProps = {
-    problem : Problem
+    problem : Problem;
+    _solved: boolean;
 }
-const ProblemDescription:React.FC<problemPageProps> = ({problem}) => {
+const ProblemDescription:React.FC<problemPageProps> = ({problem,_solved}) => {
     const {currentProblem,loading,problemDifficultyClass, setCurrentProblem} = useGetCurrentProblem(problem.id)
     //console.log(problem)
     const {liked,disliked,solved,starred,setData} = useGetUsersDataOnProblem(problem.id);
@@ -152,7 +153,7 @@ const ProblemDescription:React.FC<problemPageProps> = ({problem}) => {
                         >
                             {currentProblem.difficulty}
                         </div>
-                        {solved && (
+                        {(solved || _solved) && (
                             <div className='rounded p-[3px] ml-4 text-lg transition-colors duration-200 text-green-s text-dark-green-s'>
                             <BsCheck2Circle />
                         </div>

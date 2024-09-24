@@ -17,9 +17,10 @@ import { arrayUnion, doc, updateDoc } from "firebase/firestore";
 type PlaygroundProps = {
     problem: Problem;
     setSuccess: React.Dispatch<React.SetStateAction<boolean>>;
+    setSolved: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const PlayGround:React.FC<PlaygroundProps> = 
- ({problem, setSuccess}:any)=>{
+ ({problem, setSuccess, setSolved}:any)=>{
     const [activeTestCaseId,setActiveTextCaseId] = useState(0);
     const [userCode,setUserCode] = useState<string>(problem.starterCode)
     const [user] = useAuthState(auth);
@@ -54,7 +55,8 @@ const PlayGround:React.FC<PlaygroundProps> =
                 const userRef = doc(firestore, "users", user.uid);
                 await updateDoc(userRef, {
                     solvedProblems: arrayUnion(pid)
-                })
+                });
+                setSolved(true);
             }
         }catch (error){
             console.log(error);
@@ -65,7 +67,7 @@ const PlayGround:React.FC<PlaygroundProps> =
     }
     const onChange = (value: string) => {
         setUserCode(value);
-        console.log(value);
+        localStorage.setItem(`code ${pid}`, JSON.stringify(value))
     }
     return (
         <div className="flex flex-col bg-dark-layer-1 relative overflow-x-hidden">
