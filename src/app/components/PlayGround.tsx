@@ -5,7 +5,7 @@ import { vscodeDark } from "@uiw/codemirror-theme-vscode";
 import { javascript } from "@codemirror/lang-javascript";
 import EditorFooter from "./EditorFooter";
 import { Problem } from "../utils/types/problem";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, firestore } from "../firebase/firebase";
 import { toast } from "react-toastify";
@@ -22,7 +22,7 @@ type PlaygroundProps = {
 const PlayGround:React.FC<PlaygroundProps> = 
  ({problem, setSuccess, setSolved}:any)=>{
     const [activeTestCaseId,setActiveTextCaseId] = useState(0);
-    const [userCode,setUserCode] = useState<string>(problem.starterCode)
+    let [userCode,setUserCode] = useState<string>(problem.starterCode)
     const [user] = useAuthState(auth);
     //const {query : {pid}} = useRouter()
     
@@ -40,6 +40,7 @@ const PlayGround:React.FC<PlaygroundProps> =
             return
         }
         try {
+            userCode = userCode.slice(userCode.indexOf(problem.starterFunctionName));
             const cb = new Function(`return ${userCode}`)()
             const success = problems[pid as string].handlerFunction(cb);
             //const success = [problem.id]
@@ -67,15 +68,25 @@ const PlayGround:React.FC<PlaygroundProps> =
     }
     const onChange = (value: string) => {
         setUserCode(value);
-        localStorage.setItem(`code ${pid}`, JSON.stringify(value))
+        localStorage.setItem(`code-${pid}`, JSON.stringify(value))
     }
+
+    useEffect(() => {
+        const code = localStorage.getItem(`code-${pid}`)
+        if (user){
+            setUserCode(code ? JSON.parse(code) : problem.starterCode);
+        }else {
+            setUserCode(problem.starterCode)
+        }
+    },[pid,user,problem.starterCode])
+
     return (
         <div className="flex flex-col bg-dark-layer-1 relative overflow-x-hidden">
             <PreferenceNavbar />
             <Split className="h-[calc(100vh-34px)]" direction="vertical" sizes={[60,40]} minSize={60}>
                 <div className="w-full overflow-auto">
                     <CodeMirror 
-                    value={problem.starterCode}
+                    value={userCode}
                     theme={vscodeDark}
                     onChange={onChange}
                     extensions={[javascript()]}
