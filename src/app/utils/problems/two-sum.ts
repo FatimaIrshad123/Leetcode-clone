@@ -12,7 +12,7 @@ const handlerTwoSum = (fn: any) => {
         ];
         const targets = [9,6,6];
         const answers = [
-            [0,1],[1,2],[1,2]
+            [0,1],[1,2],[0,1]
         ]
 
         for (let i =0; i < nums.length; i++){
@@ -22,7 +22,7 @@ const handlerTwoSum = (fn: any) => {
         return true;
 
     }catch (error: any){
-        console.log("twoSun handler function error")
+        console.log("twoSum handler function error")
         throw new Error(error);
     }
 }

@@ -7,11 +7,12 @@ import EditorFooter from "./EditorFooter";
 import { Problem } from "../utils/types/problem";
 import { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "../firebase/firebase";
+import { auth, firestore } from "../firebase/firebase";
 import { toast } from "react-toastify";
 import { problems } from "../utils/problems";
 import { useParams, useRouter } from "next/navigation";
 import { useSearchParams } from 'next/navigation';
+import { arrayUnion, doc, updateDoc } from "firebase/firestore";
 
 type PlaygroundProps = {
     problem: Problem;
@@ -25,11 +26,11 @@ const PlayGround:React.FC<PlaygroundProps> =
     //const {query : {pid}} = useRouter()
     
     const params = useParams()
-    const pids = params.pid;
+    const pid = params.pid;
     //console.log(pids)
     const handleSubmit = async() => {
-        alert ('Submitted')
-        /*if (!user){
+        //alert ('Submitted')
+        if (!user){
             toast.error("Please login to submit your code", {
                 position: "top-center",
                 autoClose: 3000,
@@ -38,8 +39,8 @@ const PlayGround:React.FC<PlaygroundProps> =
             return
         }
         try {
-            const cb = new Function(`return ${userCode}`);
-            const success = problems[pids as string].handlerFunction(cd);
+            const cb = new Function(`return ${userCode}`)()
+            const success = problems[pid as string].handlerFunction(cb);
             //const success = [problem.id]
             console.log(success)
             if (success){
@@ -50,12 +51,20 @@ const PlayGround:React.FC<PlaygroundProps> =
                 setTimeout(() => {
                     setSuccess(false)
                 },4000)
+                const userRef = doc(firestore, "users", user.uid);
+                await updateDoc(userRef, {
+                    solvedProblems: arrayUnion(pid)
+                })
             }
         }catch (error){
             console.log(error);
-        }*/
+            toast.error("Oops! One or more test cases failed",{
+                position: 'top-center', autoClose: 3000, theme: 'dark'
+            })
+        }
     }
     const onChange = (value: string) => {
+        setUserCode(value);
         console.log(value);
     }
     return (
