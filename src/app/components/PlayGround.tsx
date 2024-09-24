@@ -19,13 +19,25 @@ type PlaygroundProps = {
     setSuccess: React.Dispatch<React.SetStateAction<boolean>>;
     setSolved: React.Dispatch<React.SetStateAction<boolean>>;
 }
+
+export interface ISettings {
+    fontSize: string;
+    settingModalIsOpen: boolean;
+    dropdownIsOpen: boolean;
+}
+
 const PlayGround:React.FC<PlaygroundProps> = 
  ({problem, setSuccess, setSolved}:any)=>{
     const [activeTestCaseId,setActiveTextCaseId] = useState(0);
     let [userCode,setUserCode] = useState<string>(problem.starterCode)
     const [user] = useAuthState(auth);
     //const {query : {pid}} = useRouter()
-    
+    const [settings, setSettings] = useState<ISettings>({
+        fontSize: "16px",
+        settingModalIsOpen: true,
+        dropdownIsOpen: false
+    })
+
     const params = useParams()
     const pid = params.pid;
     //console.log(pids)
@@ -85,7 +97,7 @@ const PlayGround:React.FC<PlaygroundProps> =
 
     return (
         <div className="flex flex-col bg-dark-layer-1 relative overflow-x-hidden">
-            <PreferenceNavbar />
+            <PreferenceNavbar settings={settings} setSettings={setSettings}/>
             <Split className="h-[calc(100vh-34px)]" direction="vertical" sizes={[60,40]} minSize={60}>
                 <div className="w-full overflow-auto">
                     <CodeMirror 
@@ -93,7 +105,7 @@ const PlayGround:React.FC<PlaygroundProps> =
                     theme={vscodeDark}
                     onChange={onChange}
                     extensions={[javascript()]}
-                    style={{fontSize:16}}/>
+                    style={{fontSize:settings.fontSize}}/>
                 </div>
                 <div>
                     <div className="w-full px-5 overflow-auto">
