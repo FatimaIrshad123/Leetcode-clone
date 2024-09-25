@@ -46,7 +46,7 @@ const PreferenceNavbar : React.FC<PreferenceNavbarProps> = ({setSettings,setting
             </div>
 
             <div className="flex items-center m-2">
-                <button className="relative rounded px-3 py-1.5 font-medium items-center transition-all focus:outline-none p-1 ml-auto inline-flex mr-2 hover:bg-dark-fill-3 group">
+                <button className="relative rounded px-3 py-1.5 font-medium items-center transition-all focus:outline-none p-1 ml-auto inline-flex mr-2 hover:bg-dark-fill-3 group" onClick={() => setSettings({...settings, settingModalIsOpen: true})}>
                     <div className="h-4 w-4 text-dark-gray-6 font-bold text-lg">
                         <AiOutlineSetting />
                     </div>
@@ -63,7 +63,7 @@ const PreferenceNavbar : React.FC<PreferenceNavbarProps> = ({setSettings,setting
                     </div>
                 </button>
             </div>
-            {settings.settingModalIsOpen && <SettingsModal />}
+            {settings.settingModalIsOpen && <SettingsModal settings={settings} setSettings={setSettings}/>}
         </div>
     )
 }

@@ -1,16 +1,28 @@
 import { BsCheckLg, BsChevronDown } from "react-icons/bs";
 import { IoClose } from "react-icons/io5";
+import { ISettings } from "./PlayGround";
+import React from "react";
 
 const EDITOR_FONT_SIZES = ["12px", "13px", "14px", "15px", "16px", "17px", "18px"];
 
-const SettingsModal: React.FC = () => {
-	const dropdownIsOpen = true;
+interface SettingsModalProps {
+	settings: ISettings;
+	setSettings: React.Dispatch<React.SetStateAction<ISettings>>;
+};
+
+const SettingsModal: React.FC<SettingsModalProps> = ({setSettings,settings}) => {
+	
+	const handleClickDropDown = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+		e.stopPropagation();
+		setSettings({...settings, dropdownIsOpen: !settings.dropdownIsOpen})
+	};
+
 	return (
 		<div className='text-white z-40'>
 			<div aria-modal='true' role='dialog' className='fixed inset-0 overflow-y-auto z-modal'>
 				<div className='flex min-h-screen items-center justify-center px-4'>
 					{/* overlay */}
-					<div className='opacity-100' onClick={() => {}}>
+					<div className='opacity-100' onClick={() => {setSettings({...settings, settingModalIsOpen: false})}}>
 						<div className='fixed inset-0 bg-gray-8 opacity-60'></div>
 					</div>
 
@@ -18,7 +30,7 @@ const SettingsModal: React.FC = () => {
 						{/* setting header */}
 						<div className='flex items-center border-b px-5 py-4 text-lg font-medium  border-dark-divider-border-2'>
 							Settings
-							<button className='ml-auto cursor-pointer rounded transition-all' onClick={() => {}}>
+							<button className='ml-auto cursor-pointer rounded transition-all' onClick={() => setSettings({...settings, settingModalIsOpen: false})}>
 								<IoClose />
 							</button>
 						</div>
@@ -34,7 +46,7 @@ const SettingsModal: React.FC = () => {
 								<div className='w-[170px]'>
 									<div className='relative'>
 										<button
-											onClick={() => {}}
+											onClick={handleClickDropDown}
 											className='flex cursor-pointer items-center rounded px-3 py-1.5 text-left focus:outline-none whitespace-nowrap bg bg-dark-fill-3 hover:bg-dark-fill-2 active:bg-dark-fill-3 w-full justify-between'
 											type='button'
 										>
@@ -42,7 +54,7 @@ const SettingsModal: React.FC = () => {
 											<BsChevronDown />
 										</button>
 										{/* Show dropdown for fontsizes */}
-										{dropdownIsOpen && (
+										{settings.dropdownIsOpen && (
 											<ul
 												className='absolute mt-1 max-h-56 overflow-auto rounded-lg p-2 z-50 focus:outline-none shadow-lg   w-full bg-dark-layer-1'
 												style={{

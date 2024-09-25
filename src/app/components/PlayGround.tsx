@@ -34,7 +34,7 @@ const PlayGround:React.FC<PlaygroundProps> =
     //const {query : {pid}} = useRouter()
     const [settings, setSettings] = useState<ISettings>({
         fontSize: "16px",
-        settingModalIsOpen: true,
+        settingModalIsOpen: false,
         dropdownIsOpen: false
     })
 
