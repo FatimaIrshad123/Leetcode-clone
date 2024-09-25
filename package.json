@@ -13,6 +13,7 @@
     "@uiw/codemirror-theme-vscode": "^4.22.1",
     "@uiw/react-codemirror": "^4.22.1",
     "assert": "^2.1.0",
+    "dotenv": "^16.4.5",
     "firebase": "^10.12.0",
     "next": "14.2.3",
     "react": "^18",
