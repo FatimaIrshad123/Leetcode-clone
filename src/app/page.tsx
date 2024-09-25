@@ -16,7 +16,7 @@ export default function Home() {
     <RecoilRoot>
       <main className="bg-dark-layer-2 min-h-screen">
         <Topbar />
-        <h1 className="text-2xl text-center text-gray-700 dark:text-gray-400 font-medium uppercase mt-10 mb-5">" QUALITY OVER QUANTITY "👇</h1>
+        <h1 className="text-2xl text-center text-gray-700 dark:text-gray-400 font-medium uppercase mt-10 mb-5">&quot;QUALITY OVER QUANTITY&quot;👇</h1>
         <div className="relative overflow-x-auto mx-auto px-6 pb-10">
           {loadingProblem && (
             <div className="animate-pulse max-w-[1200px] mx-auto sm:w-7/12 w-full">
