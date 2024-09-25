@@ -13,6 +13,7 @@ import { problems } from "../utils/problems";
 import { useParams, useRouter } from "next/navigation";
 import { useSearchParams } from 'next/navigation';
 import { arrayUnion, doc, updateDoc } from "firebase/firestore";
+import useLocalStorage from "../hooks/useLocalStorage";
 
 type PlaygroundProps = {
     problem: Problem;
@@ -30,13 +31,16 @@ const PlayGround:React.FC<PlaygroundProps> =
  ({problem, setSuccess, setSolved}:any)=>{
     const [activeTestCaseId,setActiveTextCaseId] = useState(0);
     let [userCode,setUserCode] = useState<string>(problem.starterCode)
+    const [fontSize, setFontSize] = useLocalStorage("Icc-fontSize", "16px")
     const [user] = useAuthState(auth);
-    //const {query : {pid}} = useRouter()
+    
     const [settings, setSettings] = useState<ISettings>({
-        fontSize: "16px",
+        fontSize: fontSize,
         settingModalIsOpen: false,
         dropdownIsOpen: false
     })
+
+    
 
     const params = useParams()
     const pid = params.pid;
