@@ -8,8 +8,7 @@ export default function ResetPassword(){
   const [sendPasswordResetEmail, sending, error] = useSendPasswordResetEmail(auth);
   const handleReset = async(e:any) => {
     e.preventDefault();
-    const success = await sendPasswordResetEmail(email);
-    console.log(success)  
+    const success = await sendPasswordResetEmail(email); 
     if (success) {
         toast.success("Password reset email sent", {position: "top-center", autoClose: 3000, theme:'dark'})
       }

@@ -1,11 +1,7 @@
 import { useEffect, useState } from "react"
 import { FiRefreshCw } from "react-icons/fi"
 
-type TimerProps = {
-
-}
-
- export default function Timer(){
+export default function Timer(){
     const [showTimer,setShowTimer] = useState<boolean>(false)
     const [time,setTime] = useState<number>(0);
 
@@ -28,6 +24,7 @@ type TimerProps = {
         }
         return () => clearInterval(intervalid)
     }, [showTimer]);
+    
     return (
         <div>
             {showTimer ? (

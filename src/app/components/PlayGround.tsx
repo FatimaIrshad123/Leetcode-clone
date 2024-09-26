@@ -11,7 +11,6 @@ import { auth, firestore } from "../firebase/firebase";
 import { toast } from "react-toastify";
 import { problems } from "../utils/problems";
 import { useParams, useRouter } from "next/navigation";
-import { useSearchParams } from 'next/navigation';
 import { arrayUnion, doc, updateDoc } from "firebase/firestore";
 import useLocalStorage from "../hooks/useLocalStorage";
 
@@ -40,13 +39,9 @@ const PlayGround:React.FC<PlaygroundProps> =
         dropdownIsOpen: false
     })
 
-    
-
     const params = useParams()
     const pid = params.pid;
-    //console.log(pids)
     const handleSubmit = async() => {
-        //alert ('Submitted')
         if (!user){
             toast.error("Please login to submit your code", {
                 position: "top-center",
@@ -77,7 +72,6 @@ const PlayGround:React.FC<PlaygroundProps> =
                     setSolved(true);
                 }
             }
-            
         }catch (error){
             console.log(error);
             toast.error("Oops! One or more test cases failed",{

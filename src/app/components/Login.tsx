@@ -33,7 +33,6 @@ export default function Login(){
         }}
 
         useEffect(() => {
-            //console.log(error)
             if(error) toast.error(error.message, {position: "top-center",autoClose: 3000, theme: 'dark'})
           },[error])
           

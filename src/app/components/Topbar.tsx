@@ -10,9 +10,7 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { BsList } from "react-icons/bs";
 import Timer from "./Timer";
 import { useRouter, useSearchParams } from "next/navigation";
-
 import { problems } from "../utils/problems";
-import { Problem } from "../utils/types/problem";
 
 type TopbarProps = {
 	problemPage? : boolean;
@@ -27,12 +25,11 @@ export default function Topbar({ problemPage }: TopbarProps){
 	const handleProblemChange = (isForward: boolean) => {
 		const pid = searchParams.get('pid');
 		console.log(pid)
-		if (!pid) return; // handle the case where pid is not present
-		
-		const { order } = problems[pid];
-		const direction = isForward ? 1 : -1;
-		const nextProblemOrder = order + direction;
-		const nextProblemKey = Object.keys(problems).find((key) => problems[key].order === nextProblemOrder);
+		if (!pid) return; // handle the case where pid is not present		
+			const { order } = problems[pid];
+			const direction = isForward ? 1 : -1;
+			const nextProblemOrder = order + direction;
+			const nextProblemKey = Object.keys(problems).find((key) => problems[key].order === nextProblemOrder);
 	
 		if (isForward && !nextProblemKey) {
 		  const firstProblemKey = Object.keys(problems).find((key) => problems[key].order === 1);

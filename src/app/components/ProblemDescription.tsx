@@ -16,7 +16,6 @@ type problemPageProps = {
 }
 const ProblemDescription:React.FC<problemPageProps> = ({problem,_solved}) => {
     const {currentProblem,loading,problemDifficultyClass, setCurrentProblem} = useGetCurrentProblem(problem.id)
-    //console.log(problem)
     const {liked,disliked,solved,starred,setData} = useGetUsersDataOnProblem(problem.id);
     const [user] = useAuthState(auth)
 

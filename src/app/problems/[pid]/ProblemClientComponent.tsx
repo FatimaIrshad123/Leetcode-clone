@@ -1,12 +1,9 @@
-// app/problems/[pid]/ProblemClientComponent.tsx
-
 'use client';
 
 import React from 'react';
 import Topbar from '../../components/Topbar';
 import WorkSpace from '../../components/WorkSpace';
 import useHasMounted from '../../hooks/useHasMounted';
-
 
 interface ProblemClientComponentProps {
   problem: any;
