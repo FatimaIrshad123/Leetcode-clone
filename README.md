@@ -1,3 +1,17 @@
+Excited to share my latest project! I built a LeetCode clone using Next.js, TypeScript, and Firebase. 
+Key Technologies Used:
+Next.js: For server-side rendering and optimized performance.
+TypeScript: Enhancing code quality and maintainability.
+Firebase: Providing authentication, real-time database, and hosting services.
+Tailwind CSS: Creating a responsive and beautiful UI with utility-first styling.
+Recoil: Managing global state effectively throughout the application.
+React Icons: Enriching the interface with customizable icons.
+React Toastify: Displaying user notifications with ease.
+React Codemirror: Integrating a powerful code editor for users to write and test their solutions.
+React Split: Enabling a flexible and resizable layout for the coding environment.
+React Firebase Hooks: Simplifying interactions with Firebase for better code efficiency.
+This project also incorporates various other libraries to enhance functionality.
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
